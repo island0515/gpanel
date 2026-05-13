@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style"="transparent" />
-<link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIue7j+WFseWbvSDorqHorr7orqEiLAogICJzaG9ydF9uYW1lIjogIue7j+WFseWbvSIsCiAgInN0YXJ0X3VybCI6ICIvIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwogICJiYWNrZ3JvdW5kIjogI2Y1ZjVmNyIsCiAgInRoZW1lY29sb3IiOiAjMDA3YWZmIiwogICJpY29ucyI6IFsKICAgewogICAgInNyYyI6ICJodHRwczovL2Nkbi5qc2RlbGl2ci5uZXQvbGljb3JlL2ljb24vYm9va19vbmx5LzI1Ni9ib29rX29ubHlfaWNvbl83NzEwMTQucG5nIiwogICAgInNpemUiOiAiMjU2eDI1NiIsCiAgICAidHlwZSI6ICJpbWFnZS9wbmciCiAgfQogIF0KfQ==">
+<link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIue7j+WFseWbvSDorqHorr7orqEiLAogICJzaG9ydF9uYW1lIjogIue7j+WFseWbvSIsCiAgInN0YXJ0X3VybCI6ICIvIiwogICJkaXNwbGF5IjogInN0YW5kYXxvbmUiLAogICJiYWNrZ3JvdW5kIjogI2Y1ZjVmNyIsCiAgInRoZW1lY29sb3IiOiAjMDA3YWZmIiwogICJpY29ucyI6IFsKICAgewogICAgInNyYyI6ICJodHRwczovL2Nkbi5qc2RlbGl2ci5uZXQvbGljb3JlL2ljb24vYm9va19vbmx5LzI1Ni9ib29rX29ubHlfaWNvbl83NzEwMTQucG5nIiwogICAgInNpemUiOiAiMjU2eDI1NiIsCiAgICAidHlwZSI6ICJpbWFnZS9wbmciCiAgfQogIF0KfQ==">
 <title>极简macOS导航页 · 云端同步</title>
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lucide@0.447.0/dist/umd/lucide.min.js"></script>
@@ -782,18 +782,24 @@ const LUCIDE_ICONS = ["home","settings","search","code","mail","cloud","globe","
 lucide.createIcons();
 if(darkMode) document.body.classList.add("dark");
 
+// ==============================
+// ✅ 这里已替换成你的 GIST 云端配置
+// ==============================
 async function loadConfig() {
   try {
-    const res = await fetch('/config.json');
+    const res = await fetch("https://gist.githubusercontent.com/island0515/359c15b3fd89ad517362687aaf9859fe/raw/6d88939fba8eafcbe3ae448aa14b90c3cf45669d/gistfile1.txt");
     const data = await res.json();
     groups = data.groups || [];
     engines = data.engines || [];
     dockList = data.dockList || [];
     QUOTES = data.quotes || ["保持热爱，奔赴山海"];
-    showToast("✅ 配置加载成功");
+    showToast("✅ 云端配置加载成功");
   } catch (e) {
     console.log(e);
-    showToast("⚠️ 使用本地配置");
+    showToast("⚠️ 加载失败，使用默认配置");
+    groups = [{name:"常用",cardSize:130,cardGap:16,cardRadius:0,sites:[]}];
+    engines = [{name:"百度",url:"https://www.baidu.com/s?wd="}];
+    dockList = [];
   }
   renderAll();
 }
@@ -1093,7 +1099,7 @@ function closeGlobalSettings(){document.getElementById("globalSettingsModal").st
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeSiteModal();closeGlobalSettings();closeGroupSettings();closeIconModal()}})
 document.addEventListener('mousemove',e=>{document.querySelectorAll('.site-card').forEach(card=>{const r=card.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;card.style.setProperty('--ry',`${(e.clientX-cx)/30}deg`);card.style.setProperty('--rx',`${-(e.clientY-cy)/30}deg`)})})
 const d=document.getElementById('dockBar');if(d){d.addEventListener('mousemove',e=>{d.querySelectorAll('.dock-item').forEach(it=>{const r=it.getBoundingClientRect(),c=r.left+r.width/2,dis=Math.abs(e.clientX-c);let s=1;if(dis<150)s=1+0.6*(1-dis/150);it.style.transform=`scale(${s}) translateY(${(1-s)*20}px)`;it.style.margin=`0 ${s*2}px`})});d.addEventListener('mouseleave',()=>{d.querySelectorAll('.dock-item').forEach(x=>{x.style.transform='scale(1) translateY(0)';x.style.margin='0 6px'})})}
-document.getElementById("searchInput").addEventListener("keydown",e=>{if(e.key!='Enter')return;const v=e.target.value.trim();if(!v)return;window.open(document.getElementById("engineSelect").value+encodeURIComponent(v),"_blank");e.target.value=""})
+document.getElementById("searchInput").addEventListener("keydown",e=>{if(e.key==='Enter')return;const v=e.target.value.trim();if(!v)return;window.open(document.getElementById("engineSelect").value+encodeURIComponent(v),"_blank");e.target.value=""})
 </script>
 </body>
 </html>
