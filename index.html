@@ -5,8 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style"="transparent" />
-<!-- PWA 安装应用支持 -->
-<link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIue7j+WFseWbvSDorqHorr7orqEiLAogICJzaG9ydF9uYW1lIjogIue7j+WFseWbvSIsCiAgInN0YXJ0X3VybCI6ICIvIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZCI6ICNmNWY1ZjciLAogICJ0aGVtZWNvbG9yIjogIjAwN2FmZiIsCiAgImljb25zIjogWwogICAgewogICAgICJzcmMiOiAiaHR0cHM6Ly9jZG4uanNkZWxpdnIubmV0L2xpY29yZS9pY29uL2Jvb2tfb25seS8yNTYvYm9va19vbmx5X2ljb25fNzcxMDE0LnBuZyIsCiAgICAgInNpemUiOiAiMjU2eDI1NiIsCiAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIgogICAgfQogIF0KfQ==">
+<link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIue7j+WFseWbvSDorqHorr7orqEiLAogICJzaG9ydF9uYW1lIjogIue7j+WFseWbvSIsCiAgInN0YXJ0X3VybCI6ICIvIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwogICJiYWNrZ3JvdW5kIjogI2Y1ZjVmNyIsCiAgInRoZW1lY29sb3IiOiAjMDA3YWZmIiwogICJpY29ucyI6IFsKICAgewogICAgInNyYyI6ICJodHRwczovL2Nkbi5qc2RlbGl2ci5uZXQvbGljb3JlL2ljb24vYm9va19vbmx5LzI1Ni9ib29rX29ubHlfaWNvbl83NzEwMTQucG5nIiwogICAgInNpemUiOiAiMjU2eDI1NiIsCiAgICAidHlwZSI6ICJpbWFnZS9wbmciCiAgfQogIF0KfQ==">
 <title>极简macOS导航页 · 云端同步</title>
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lucide@0.447.0/dist/umd/lucide.min.js"></script>
@@ -45,7 +44,6 @@ body.dark{
   color:var(--text-dark);
 }
 
-/* 左上角名言 */
 .quote-box {
   position: fixed;
   top: 20px;
@@ -59,7 +57,6 @@ body.dark{
   opacity: 0.85;
 }
 
-/* 渐变旋转背景层 */
 body::before,
 body::after {
   content: "";
@@ -124,7 +121,6 @@ body::after {
   z-index: 2;
 }
 
-/* 高级设置按钮：透明 + 图标缩小50% */
 .top-setting-btn{
   position:fixed;
   top:20px;
@@ -148,7 +144,6 @@ body.dark .top-setting-btn{
   transform: scale(0.5);
 }
 
-/* 安装应用按钮 */
 #installBtn {
   right: 70px;
 }
@@ -475,7 +470,6 @@ body.dark .widget-block{background:rgba(255,255,255,0.06)}
 .todo-title{font-size:17px;margin-bottom:16px;font-weight:500}
 .todo-item{display:flex;align-items:center;gap:10px;padding:8px 0}
 
-/* 弹窗全直角 */
 .modal{position:fixed;inset:0;background:rgba(0,0,0,0.3);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:999}
 .modal-box{width:560px;max-width:90vw;padding:28px;border-radius:0px !important;background:var(--bg-light);box-shadow:0 20px 60px rgba(0,0,0,0.15);max-height:80vh;overflow-y:auto}
 body.dark .modal-box{background:#16161a}
@@ -582,12 +576,9 @@ body.dark .context-item:hover{background:rgba(255,255,255,0.08)}
 </head>
 <body>
 
-<!-- 左上角名言 -->
 <div class="quote-box" id="quoteBox"></div>
-
 <div class="toast-island" id="toastIsland"></div>
 
-<!-- 安装应用按钮 -->
 <div class="top-setting-btn" id="installBtn" style="display:none;" onclick="installApp()">
   <i data-lucide="download" size="20"></i>
 </div>
@@ -765,7 +756,6 @@ body.dark .context-item:hover{background:rgba(255,255,255,0.08)}
 </div>
 
 <script>
-// PWA 安装应用功能
 let deferredPrompt;
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
@@ -777,148 +767,51 @@ async function installApp() {
   if (!deferredPrompt) return;
   deferredPrompt.prompt();
   const { outcome } = await deferredPrompt.userChoice;
-  if (outcome === 'accepted') {
-    showToast("✅ 已安装为应用");
-  }
+  if (outcome === 'accepted') showToast("✅ 已安装为应用");
   deferredPrompt = null;
   document.getElementById('installBtn').style.display = 'none';
 }
 
-const JSONBIN_KEY = "$2a$10$rOjguTfVtK03aXiSAyn37.H2J8R/qihDk3Iq6o.DXMF5Yb0n.Neei";
-const JSONBIN_ID = "6a030b65c0954111d8105ff1";
-const JSONBIN_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_ID}`;
+let groups = [], engines = [], dockList = [], todoList = [], QUOTES = [];
+let darkMode = localStorage.getItem("nav_dark") === "1";
+let currentEditGroupIndex = -1, currentCtxSite = null, currentCtxGroup = null;
+let suggestIndex = -1, suggestList = [], targetIconInput = "";
 
-// 世界名著名言库
-// 自定义名言：从网络文件加载
-let QUOTES = [];
-const QUOTE_URL = "https://gist.githubusercontent.com/island0515/5722d1b0bf28f3fac4ffd023091d1801/raw/7efc48360d2bcb39496b4eb35e0a18a1c0a34e94/gistfile1.txt"; // 👈 改成你的文件地址
+const LUCIDE_ICONS = ["home","settings","search","code","mail","cloud","globe","book","coffee","heart","star","bell","calendar","clock","camera","image","file","folder","trash","check","x","plus","edit","user","sun","moon","cloud-sun","menu","arrow-right","arrow-left","arrow-up","arrow-down","download","upload","copy","paste","save","filter","tag","link","lock","unlock","key","phone","message","send","gift","ticket","compass","map","navigation","target","award","shield","fire","database","hard-drive","laptop","monitor","phone","tablet","printer","wifi","bluetooth","usb","power","battery","battery-full","battery-low","volume","volume-1","volume-2","volume-x","mic","mic-off","headphones","speaker","play","pause","stop","skip-back","skip-forward","rewind","fast-forward","refresh","rotate-cw","rotate-ccw","move","maximize","minimize","zoom-in","zoom-out","alert","info","alert-circle","info-circle","alert-triangle","check-circle","x-circle","plus-circle","minus-circle","help-circle","lightbulb","gift","rocket","feed","happy","life-buoy","umbrella","briefcase","package","shopping-cart","store","wallet","credit-card","cash","coins","receipt","percent","clipboard","notes","alarm","bookmark","book-open","book-marked","file-text","file-plus","file-minus","file-search","layout","grid","list","bar-chart","pie-chart","activity","trending-up","trending-down","users","user-plus","user-minus","user-check","user-x","user-cog","users-cog"];
 
-async function loadCustomQuotes() {
+lucide.createIcons();
+if(darkMode) document.body.classList.add("dark");
+
+async function loadConfig() {
   try {
-    const res = await fetch(QUOTE_URL);
-    const text = await res.text();
-    // 按行分割，过滤空行
-    QUOTES = text.split("\n").map(line => line.trim()).filter(line => line);
-    console.log("✅ 自定义名言加载成功", QUOTES);
-  } catch (err) {
-    console.log("❌ 加载失败，使用默认名言");
-    // 失败时用默认
-    QUOTES = [
-      "生活原本沉闷，但跑起来就有风。",
-      "慢慢来，谁还没有一个努力的过程。",
-      "愿你眼里的光，不灭，心中的梦，不醒。"
-    ];
+    const res = await fetch('/config.json');
+    const data = await res.json();
+    groups = data.groups || [];
+    engines = data.engines || [];
+    dockList = data.dockList || [];
+    QUOTES = data.quotes || ["保持热爱，奔赴山海"];
+    showToast("✅ 配置加载成功");
+  } catch (e) {
+    console.log(e);
+    showToast("⚠️ 使用本地配置");
   }
+  renderAll();
 }
 
-const defaultGroups = [
-  {name:"AI工具",collapsed:false,cardSize:130,cardGap:16,cardRadius:0,sites:[
-    {name:"ChatGPT",url:"https://chat.openai.com",icon:"🤖"},
-    {name:"Perplexity",url:"https://www.perplexity.ai",icon:"💬"}
-  ]},
-  {name:"开发常用",collapsed:false,cardSize:130,cardGap:16,cardRadius:0,sites:[
-    {name:"GitHub",url:"https://github.com",icon:"🐱"},
-    {name:"MDN文档",url:"https://developer.mozilla.org",icon:"📚"}
-  ]},
-  {name:"日常娱乐",collapsed:false,cardSize:130,cardGap:16,cardRadius:0,sites:[
-    {name:"哔哩哔哩",url:"https://bilibili.com",icon:"📺"},
-    {name:"YouTube",url:"https://youtube.com",icon:"▶️"}
-  ]}
-]
-
-const defaultEngines = [
-  {name:"必应",url:"https://www.bing.com/search?q="},
-  {name:"百度",url:"https://www.baidu.com/s?wd="},
-  {name:"谷歌",url:"https://www.google.com/search?q="},
-  {name:"GitHub",url:"https://github.com/search?q="},
-  {name:"AI搜索",url:"https://www.perplexity.ai/search?q="}
-]
-
-const defaultDock = [
-  {icon:"safari",name:"浏览器",url:"https://www.bing.com"},
-  {icon:"code",name:"开发",url:"https://vscode.dev"},
-  {icon:"message-square",name:"对话",url:"https://chat.openai.com"}
-]
-
-const LUCIDE_ICONS = [
-"home","settings","search","code","mail","cloud","globe","book","coffee","heart","star","bell",
-"calendar","clock","camera","image","file","folder","trash","check","x","plus","edit","user",
-"sun","moon","cloud-sun","menu","arrow-right","arrow-left","arrow-up","arrow-down","download",
-"upload","copy","paste","save","filter","tag","link","lock","unlock","key","phone","message",
-"send","gift","ticket","compass","map","navigation","target","award","shield","fire","database",
-"hard-drive","laptop","monitor","phone","tablet","printer","wifi","bluetooth","usb","power",
-"battery","battery-full","battery-low","volume","volume-1","volume-2","volume-x","mic","mic-off",
-"headphones","speaker","play","pause","stop","skip-back","skip-forward","rewind","fast-forward",
-"refresh","rotate-cw","rotate-ccw","move","maximize","minimize","zoom-in","zoom-out","search",
-"alert","info","alert-circle","info-circle","alert-triangle","check-circle","x-circle","plus-circle",
-"minus-circle","help-circle","lightbulb","gift","rocket","feed","happy","life-buoy","umbrella",
-"briefcase","package","shopping-cart","store","wallet","credit-card","cash","coins","receipt",
-"percent","clipboard","notes","alarm","bookmark","book-open","book-marked","file-text","file-plus",
-"file-minus","file-search","layout","grid","list","menu","bar-chart","pie-chart","activity","trending-up",
-"trending-down","users","user-plus","user-minus","user-check","user-x","user-cog","users-cog","user",
-"users","badge","award","ribbon","medal","thumbs-up","thumbs-down","smile","meh","frown","eye",
-"eye-off","moon","sun","cloud","cloud-rain","cloud-snow","cloud-lightning","wind","drop","umbrella",
-"thermometer","snowflake","fire","leaf","palm","sprout","map-pin","map","navigation","compass",
-"briefcase","truck","car","bus","train","plane","boat","anchor","compass","road","traffic",
-"phone","phone-call","phone-missed","phone-off","mail","mail-open","send","paperclip","link",
-"unlink","attach","at","hash","quote","quote","code","terminal","git","git-merge","git-pull-request",
-"github","gitlab","bitbucket","figma","slack","discord","twitch","twitter","instagram","facebook",
-"youtube","linkedin","whatsapp","telegram","messenger","skype","signal","snapchat","tiktok",
-"spotify","netflix","amazon","apple","windows","chrome","codepen","codesandbox","visual-studio"
-];
-
-let groups = []
-let engines = []
-let dockList = []
-let todoList = []
-let darkMode = localStorage.getItem("nav_dark") === "1"
-let currentEditGroupIndex = -1
-let currentCtxSite = null, currentCtxGroup = null
-let suggestIndex = -1
-let suggestList = []
-let targetIconInput = ""
-
-lucide.createIcons()
-if(darkMode) document.body.classList.add("dark")
-
-// 随机显示名言
 function showRandomQuote() {
   const box = document.getElementById("quoteBox");
-  const quote = QUOTES[Math.floor(Math.random() * QUOTES.length)];
-  box.innerText = quote;
+  box.innerText = QUOTES.length ? QUOTES[Math.floor(Math.random() * QUOTES.length)] : "加载中...";
 }
 
-loadColor()
-loadRadius()
-loadFromJsonbin().then(async () => {
-  renderTimeGreet()
-  renderGroups()
-  renderEngineSelect()
-  renderDock()
-  renderTodo()
-  bindSearch()
-  bindHotkey()
-  bindCardParallax()
-  bindDockMagnify()
+loadColor();
+loadRadius();
 
-  // 加载你自己的名言
-  await loadCustomQuotes();
+loadConfig().then(() => {
+  renderTimeGreet();
   showRandomQuote();
+  setInterval(renderTimeGreet, 1000);
+});
 
-  setInterval(renderTimeGreet,1000)
-})
-
-document.addEventListener('click', (e) => {
-  const modals = ['globalSettingsModal','groupSettingsModal','siteModal','iconSelectModal']
-  modals.forEach(id => {
-    const el = document.getElementById(id)
-    if(el && (el.style.display === 'flex' || el.style.display === 'grid')){
-      if(e.target === el){ el.style.display = 'none' }
-    }
-  })
-})
-
-// 全局圆角
 function loadRadius() {
   const r = localStorage.getItem("globalRadius") || "0";
   document.documentElement.style.setProperty('--radius', r + 'px');
@@ -931,28 +824,26 @@ function saveRadius() {
 }
 
 function loadColor(){
-  const t = localStorage.getItem("timeColor") || "#ffffff"
-  const g = localStorage.getItem("greetColor") || "#ffffff"
-  document.documentElement.style.setProperty('--time-color', t)
-  document.documentElement.style.setProperty('--greet-color', g)
+  const t = localStorage.getItem("timeColor") || "#ffffff";
+  const g = localStorage.getItem("greetColor") || "#ffffff";
+  document.documentElement.style.setProperty('--time-color', t);
+  document.documentElement.style.setProperty('--greet-color', g);
 }
 function saveColorSettings(){
-  const t = document.getElementById("timeColor").value
-  const g = document.getElementById("greetColor").value
-  localStorage.setItem("timeColor", t)
-  localStorage.setItem("greetColor", g)
-  document.documentElement.style.setProperty('--time-color', t)
-  document.documentElement.style.setProperty('--greet-color', g)
-  showToast("颜色保存成功")
+  const t = document.getElementById("timeColor").value;
+  const g = document.getElementById("greetColor").value;
+  localStorage.setItem("timeColor", t);
+  localStorage.setItem("greetColor", g);
+  document.documentElement.style.setProperty('--time-color', t);
+  document.documentElement.style.setProperty('--greet-color', g);
+  showToast("颜色保存成功");
 }
 
 function openGlobalSettings(){
-  renderEngineList()
-  renderDockSettings()
-  document.getElementById("timeColor").value = localStorage.getItem("timeColor") || "#ffffff"
-  document.getElementById("greetColor").value = localStorage.getItem("greetColor") || "#ffffff"
-  
-  // 圆角滑块
+  renderEngineList();
+  renderDockSettings();
+  document.getElementById("timeColor").value = localStorage.getItem("timeColor") || "#ffffff";
+  document.getElementById("greetColor").value = localStorage.getItem("greetColor") || "#ffffff";
   const rv = localStorage.getItem("globalRadius") || "0";
   document.getElementById("radiusSlider").value = rv;
   document.getElementById("radiusVal").innerText = rv;
@@ -960,109 +851,88 @@ function openGlobalSettings(){
     const v = document.getElementById("radiusSlider").value;
     document.getElementById("radiusVal").innerText = v;
   };
-
-  document.getElementById("globalSettingsModal").style.display = "flex"
+  document.getElementById("globalSettingsModal").style.display = "flex";
 }
 
 function openIconModal(inputId){
-  targetIconInput = inputId
-  document.getElementById("iconSelectModal").style.display = "grid"
-  renderIconList("")
-  document.getElementById("iconSearch").oninput = e => renderIconList(e.target.value)
+  targetIconInput = inputId;
+  document.getElementById("iconSelectModal").style.display = "grid";
+  renderIconList("");
+  document.getElementById("iconSearch").oninput = e => renderIconList(e.target.value);
 }
 function closeIconModal(){ document.getElementById("iconSelectModal").style.display = "none" }
 function renderIconList(keyword=""){
-  const g = document.getElementById("iconGrid")
-  g.innerHTML = ""
-  const list = keyword ? LUCIDE_ICONS.filter(i=>i.includes(keyword)) : LUCIDE_ICONS
+  const g = document.getElementById("iconGrid");
+  g.innerHTML = "";
+  const list = keyword ? LUCIDE_ICONS.filter(i=>i.includes(keyword)) : LUCIDE_ICONS;
   list.forEach(icon => {
-    const d = document.createElement("div")
-    d.className = "icon-item"
-    d.innerHTML = `<i data-lucide="${icon}" size="20"></i>`
+    const d = document.createElement("div");
+    d.className = "icon-item";
+    d.innerHTML = `<i data-lucide="${icon}" size="20"></i>`;
     d.onclick = () => {
-      document.getElementById(targetIconInput).value = icon
-      closeIconModal()
-      lucide.createIcons()
-    }
-    g.appendChild(d)
-  })
-  lucide.createIcons()
+      document.getElementById(targetIconInput).value = icon;
+      closeIconModal();
+      lucide.createIcons();
+    };
+    g.appendChild(d);
+  });
+  lucide.createIcons();
 }
 
-async function loadFromJsonbin(){
-  try{
-    const r = await fetch(JSONBIN_URL,{headers:{"X-Master-Key":JSONBIN_KEY}})
-    const d = (await r.json()).record
-    groups = d.groups || defaultGroups
-    engines = d.engines || defaultEngines
-    dockList = d.dockList || defaultDock
-    todoList = d.todoList || []
-    showToast("✅ 云端加载完成")
-  }catch{
-    groups = defaultGroups
-    engines = defaultEngines
-    dockList = defaultDock
-    todoList = []
-    showToast("⚠️ 使用本地配置")
-  }
-}
-async function saveData(){
-  try{
-    await fetch(JSONBIN_URL,{
-      method:"PUT",
-      headers:{"Content-Type":"application/json","X-Master-Key":JSONBIN_KEY},
-      body:JSON.stringify({groups,engines,dockList,todoList})
-    })
-  }catch{}
-}
 function showToast(m){
-  const t = document.getElementById("toastIsland")
-  t.innerText = m
-  t.classList.add("show")
-  setTimeout(()=>t.classList.remove("show"),2000)
+  const t = document.getElementById("toastIsland");
+  t.innerText = m;
+  t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"),2000);
 }
+
 function renderTimeGreet(){
-  const n = new Date()
-  const h = n.getHours()
-  const m = String(n.getMinutes()).padStart(2,"0")
-  document.getElementById("timeText").innerText = `${h}:${m}`
-  document.getElementById("greetText").innerText = h<12?"早安！☀️":h<18?"下午好！✨":"晚上好！🌙"
-  const w = ["周日","周一","周二","周三","周四","周五","周六"]
-  document.getElementById("dateText").innerText = `${n.getFullYear()}年${n.getMonth()+1}月${n.getDate()}日 ${w[n.getDay()]}`
+  const n = new Date();
+  const h = n.getHours();
+  const m = String(n.getMinutes()).padStart(2,"0");
+  document.getElementById("timeText").innerText = `${h}:${m}`;
+  document.getElementById("greetText").innerText = h<12?"早安！☀️":h<18?"下午好！✨":"晚上好！🌙";
+  const w = ["周日","周一","周二","周三","周四","周五","周六"];
+  document.getElementById("dateText").innerText = `${n.getFullYear()}年${n.getMonth()+1}月${n.getDate()}日 ${w[n.getDay()]}`;
 }
 
 function exportAllData(){
-  const a = document.createElement('a')
-  a.href = URL.createObjectURL(new Blob([JSON.stringify({groups,engines,dockList,todoList})]))
-  a.download = `导航备份_${new Date().toLocaleDateString()}.json`
-  a.click()
-  showToast("导出成功")
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([JSON.stringify({groups,engines,dockList,todoList})]));
+  a.download = `导航备份_${new Date().toLocaleDateString()}.json`;
+  a.click();
+  showToast("导出成功");
 }
 function importData(){
-  const i = document.createElement('input')
-  i.type = 'file'
-  i.accept = '.json'
+  const i = document.createElement('input');
+  i.type = 'file';
+  i.accept = '.json';
   i.onchange = e => {
-    const r = new FileReader()
+    const r = new FileReader();
     r.onload = res => {
-      const d = JSON.parse(res.target.result)
-      groups = d.groups||groups
-      engines = d.engines||engines
-      dockList = d.dockList||dockList
-      todoList = d.todoList||todoList
-      saveData()
-      renderAll()
-      showToast("恢复成功")
-    }
-    r.readAsText(e.target.files[0])
-  }
-  i.click()
+      const d = JSON.parse(res.target.result);
+      groups = d.groups||groups;
+      engines = d.engines||engines;
+      dockList = d.dockList||dockList;
+      todoList = d.todoList||todoList;
+      renderAll();
+      showToast("恢复成功");
+    };
+    r.readAsText(e.target.files[0]);
+  };
+  i.click();
 }
-function renderAll(){renderGroups();renderEngineSelect();renderDock();renderTodo()}
+
+function renderAll(){
+  renderGroups();
+  renderEngineSelect();
+  renderDock();
+  renderTodo();
+}
 
 function renderGroups(){
-  const w = document.getElementById("groupWrap")
-  w.innerHTML = ""
+  const w = document.getElementById("groupWrap");
+  w.innerHTML = "";
   groups.forEach((g,i)=>{
     w.innerHTML += `
     <div class="group is-collapsed">
@@ -1076,13 +946,13 @@ function renderGroups(){
       <div class="card-grid" style="display:none;grid-template-columns:repeat(auto-fill,minmax(${g.cardSize}px,1fr));gap:${g.cardGap}px;border-radius:${g.cardRadius}px">
         ${g.sites.map(s=>`<div class="site-card" onclick="openUrl('${s.url}')" oncontextmenu="showMenu(event,${i},${g.sites.indexOf(s)})" style="border-radius:${g.cardRadius}px"><div class="card-icon">${renderIcon(s.icon)}</div><div class="card-title">${s.name}</div></div>`).join("")}
       </div>
-    </div>`
-  })
+    </div>`;
+  });
   groups.forEach((_,i)=>{
-    const el = document.querySelectorAll(".card-grid")[i]
-    if(el) new Sortable(el,{animation:180,onEnd:saveData})
-  })
-  lucide.createIcons()
+    const el = document.querySelectorAll(".card-grid")[i];
+    if(el) new Sortable(el,{animation:180});
+  });
+  lucide.createIcons();
 }
 function renderIcon(icon){
   if(!icon) return '<i data-lucide="globe"></i>';
@@ -1091,95 +961,92 @@ function renderIcon(icon){
   return `<i data-lucide="${icon}"></i>`;
 }
 function toggleCollapse(i){
-  groups[i].collapsed = !groups[i].collapsed
-  const g = document.querySelectorAll(".group")[i]
-  const grid = g.querySelector(".card-grid")
+  groups[i].collapsed = !groups[i].collapsed;
+  const g = document.querySelectorAll(".group")[i];
+  const grid = g.querySelector(".card-grid");
   if(groups[i].collapsed){
-    g.classList.add("is-collapsed")
-    grid.style.display = "none"
+    g.classList.add("is-collapsed");
+    grid.style.display = "none";
   }else{
-    g.classList.remove("is-collapsed")
-    grid.style.display = "grid"
+    g.classList.remove("is-collapsed");
+    grid.style.display = "grid";
   }
-  saveData()
 }
 function openSiteModal(i){
-  currentEditGroupIndex = i
-  document.getElementById("addName").value = ""
-  document.getElementById("addUrl").value = ""
-  document.getElementById("addIcon").value = ""
-  const s = document.getElementById("addGroup")
-  s.innerHTML = ""
+  currentEditGroupIndex = i;
+  document.getElementById("addName").value = "";
+  document.getElementById("addUrl").value = "";
+  document.getElementById("addIcon").value = "";
+  const s = document.getElementById("addGroup");
+  s.innerHTML = "";
   groups.forEach((g,j)=>{
-    const o = document.createElement("option")
-    o.value = j
-    o.innerText = g.name
-    if(j===i) o.selected = true
-    s.appendChild(o)
-  })
-  document.getElementById("siteModal").style.display = "flex"
-  lucide.createIcons()
+    const o = document.createElement("option");
+    o.value = j;
+    o.innerText = g.name;
+    if(j===i) o.selected = true;
+    s.appendChild(o);
+  });
+  document.getElementById("siteModal").style.display = "flex";
+  lucide.createIcons();
 }
 function closeSiteModal(){document.getElementById("siteModal").style.display="none"}
 function saveSite(){
-  const name = document.getElementById("addName").value.trim()
-  const url = document.getElementById("addUrl").value.trim()
-  const icon = document.getElementById("addIcon").value.trim()
-  const gi = document.getElementById("addGroup").value
+  const name = document.getElementById("addName").value.trim();
+  const url = document.getElementById("addUrl").value.trim();
+  const icon = document.getElementById("addIcon").value.trim();
+  const gi = document.getElementById("addGroup").value;
   if(!name||!url){showToast("请填写完整");return}
-  groups[gi].sites.push({name,url,icon})
-  saveData()
-  renderGroups()
-  closeSiteModal()
-  showToast("添加成功")
+  groups[gi].sites.push({name,url,icon});
+  renderGroups();
+  closeSiteModal();
+  showToast("添加成功");
 }
 function openGroupSettings(i){
-  currentEditGroupIndex = i
-  const g = groups[i]
-  document.getElementById("groupTitleInput").value = g.name
-  document.getElementById("cardSizeSlider").value = g.cardSize
-  document.getElementById("cardSizeVal").innerText = g.cardSize
-  document.getElementById("cardGapSlider").value = g.cardGap
-  document.getElementById("cardGapVal").innerText = g.cardGap
-  document.getElementById("cardShapeSelect").value = g.cardRadius
-  document.getElementById("cardSizeSlider").oninput = ()=>document.getElementById("cardSizeVal").innerText = document.getElementById("cardSizeSlider").value
-  document.getElementById("cardGapSlider").oninput = ()=>document.getElementById("cardGapVal").innerText = document.getElementById("cardGapSlider").value
-  document.getElementById("groupSettingsModal").style.display = "flex"
+  currentEditGroupIndex = i;
+  const g = groups[i];
+  document.getElementById("groupTitleInput").value = g.name;
+  document.getElementById("cardSizeSlider").value = g.cardSize;
+  document.getElementById("cardSizeVal").innerText = g.cardSize;
+  document.getElementById("cardGapSlider").value = g.cardGap;
+  document.getElementById("cardGapVal").innerText = g.cardGap;
+  document.getElementById("cardShapeSelect").value = g.cardRadius;
+  document.getElementById("cardSizeSlider").oninput = ()=>document.getElementById("cardSizeVal").innerText = document.getElementById("cardSizeSlider").value;
+  document.getElementById("cardGapSlider").oninput = ()=>document.getElementById("cardGapVal").innerText = document.getElementById("cardGapSlider").value;
+  document.getElementById("groupSettingsModal").style.display = "flex";
 }
 function closeGroupSettings(){document.getElementById("groupSettingsModal").style.display="none"}
 function saveGroupSettings(){
-  const g = groups[currentEditGroupIndex]
-  g.name = document.getElementById("groupTitleInput").value
-  g.cardSize = document.getElementById("cardSizeSlider").value
-  g.cardGap = document.getElementById("cardGapSlider").value
-  g.cardRadius = document.getElementById("cardShapeSelect").value
-  saveData()
-  renderGroups()
-  closeGroupSettings()
-  showToast("保存成功")
+  const g = groups[currentEditGroupIndex];
+  g.name = document.getElementById("groupTitleInput").value;
+  g.cardSize = document.getElementById("cardSizeSlider").value;
+  g.cardGap = document.getElementById("cardGapSlider").value;
+  g.cardRadius = document.getElementById("cardShapeSelect").value;
+  renderGroups();
+  closeGroupSettings();
+  showToast("保存成功");
 }
-function confirmDeleteGroup(){if(!confirm("确定删除？"))return;groups.splice(currentEditGroupIndex,1);saveData();renderGroups();closeGroupSettings();showToast("已删除")}
+function confirmDeleteGroup(){if(!confirm("确定删除？"))return;groups.splice(currentEditGroupIndex,1);renderGroups();closeGroupSettings();showToast("已删除")}
 function openUrl(u){window.open(u,"_blank")}
 function showMenu(e,g,s){e.preventDefault();currentCtxGroup=g;currentCtxSite=s;const m=document.getElementById("ctxMenu");m.style.left=e.clientX+"px";m.style.top=e.clientY+"px";m.style.display="block"}
 document.addEventListener("click",()=>{document.getElementById("ctxMenu").style.display="none"})
 function copyCurrentLink(){const u=groups[currentCtxGroup].sites[currentCtxSite].url;navigator.clipboard.writeText(u);showToast("已复制")}
-function delCurrentSite(){if(!confirm("确定删除？"))return;groups[currentCtxGroup].sites.splice(currentCtxSite,1);saveData();renderGroups();showToast("已删除")}
-function editCurrentSite(){const g=currentCtxGroup,s=currentCtxSite;const item=groups[g].sites[s];openSiteModal(g);document.getElementById("addName").value=item.name;document.getElementById("addUrl").value=item.url;document.getElementById("addIcon").value=item.icon||"";document.getElementById("addGroup").value=g;window.saveSite=()=>{const name=document.getElementById("addName").value.trim(),url=document.getElementById("addUrl").value.trim(),icon=document.getElementById("addIcon").value.trim();if(!name||!url){showToast("请填写完整");return}groups[g].sites[s]={name,url,icon};saveData();renderGroups();closeSiteModal();showToast("修改成功")}}
+function delCurrentSite(){if(!confirm("确定删除？"))return;groups[currentCtxGroup].sites.splice(currentCtxSite,1);renderGroups();showToast("已删除")}
+function editCurrentSite(){const g=currentCtxGroup,s=currentCtxSite;const item=groups[g].sites[s];openSiteModal(g);document.getElementById("addName").value=item.name;document.getElementById("addUrl").value=item.url;document.getElementById("addIcon").value=item.icon||"";document.getElementById("addGroup").value=g;window.saveSite=()=>{const name=document.getElementById("addName").value.trim(),url=document.getElementById("addUrl").value.trim(),icon=document.getElementById("addIcon").value.trim();if(!name||!url){showToast("请填写完整");return}groups[g].sites[s]={name,url,icon};renderGroups();closeSiteModal();showToast("修改成功")}}
 
 function renderDock(){
-  const d = document.getElementById("dockBar")
-  d.innerHTML = ""
+  const d = document.getElementById("dockBar");
+  d.innerHTML = "";
   dockList.forEach(it => {
-    const div = document.createElement("div")
-    div.className = "dock-item"
+    const div = document.createElement("div");
+    div.className = "dock-item";
     div.innerHTML = `
       ${renderDockIcon(it.icon)}
       <div class="dock-tooltip">${it.name}</div>
-    `
-    div.onclick = () => window.open(it.url, "_blank")
-    d.appendChild(div)
-  })
-  lucide.createIcons()
+    `;
+    div.onclick = () => window.open(it.url, "_blank");
+    d.appendChild(div);
+  });
+  lucide.createIcons();
 }
 function renderDockIcon(icon){
   if(!icon) return '<i data-lucide="globe" size="22"></i>';
@@ -1195,39 +1062,38 @@ function renderDockSettings(){
     <div class="settings-item-actions">
       <button class="settings-btn-sm" onclick="moveDockUp(${i})">↑</button>
       <button class="settings-btn-sm" onclick="deleteDock(${i})">✕</button>
-    </div>`;w.appendChild(d)})
+    </div>`;w.appendChild(d)});
 }
 function addDockItem(){
   const icon=document.getElementById("newDockIcon").value.trim(),
         name=document.getElementById("newDockName").value.trim(),
         url=document.getElementById("newDockUrl").value.trim();
   if(!icon||!name||!url)return showToast("请填写完整");
-  dockList.push({icon,name,url});saveData();renderDock();renderDockSettings();
+  dockList.push({icon,name,url});renderDock();renderDockSettings();
   document.getElementById("newDockIcon").value="";
   document.getElementById("newDockName").value="";
   document.getElementById("newDockUrl").value="";
 }
-function moveDockUp(i){if(i<=0)return;[dockList[i],dockList[i-1]]=[dockList[i-1],dockList[i]];saveData();renderDock();renderDockSettings()}
-function deleteDock(i){if(!confirm("确定删除？"))return;dockList.splice(i,1);saveData();renderDock();renderDockSettings()}
+function moveDockUp(i){if(i<=0)return;[dockList[i],dockList[i-1]]=[dockList[i-1],dockList[i]];renderDock();renderDockSettings()}
+function deleteDock(i){if(!confirm("确定删除？"))return;dockList.splice(i,1);renderDock();renderDockSettings()}
 
 function renderTodo(){const w=document.getElementById("todoList");w.innerHTML="";todoList.forEach((it,i)=>{const d=document.createElement("div");d.className="todo-item";d.innerHTML=`<input type="checkbox" ${it.done?"checked":""} onchange="toggleTodo(${i})"><span>${it.text}</span><button style="margin-left:auto;background:0;border:0;cursor:pointer;opacity:.6" onclick="deleteTodo(${i})">✕</button>`;w.appendChild(d)})}
-function toggleTodo(i){todoList[i].done=!todoList[i].done;saveData();renderTodo()}
-function deleteTodo(i){todoList.splice(i,1);saveData();renderTodo()}
-document.getElementById("todoInput").addEventListener("keydown",e=>{const v=e.target.value.trim();if(e.key==="Enter"&&v){todoList.push({text:v,done:false});saveData();renderTodo();e.target.value=""}})
+function toggleTodo(i){todoList[i].done=!todoList[i].done;renderTodo()}
+function deleteTodo(i){todoList.splice(i,1);renderTodo()}
+document.getElementById("todoInput").addEventListener("keydown",e=>{const v=e.target.value.trim();if(e.key==="Enter"&&v){todoList.push({text:v,done:false});renderTodo();e.target.value=""}})
 
 function renderEngineSelect(){const s=document.getElementById("engineSelect");s.innerHTML="";engines.forEach(e=>{const o=document.createElement("option");o.value=e.url;o.innerText=e.name;s.appendChild(o)})}
 function renderEngineList(){const w=document.getElementById("engineList");w.innerHTML="";engines.forEach((e,i)=>{const d=document.createElement("div");d.className="settings-item";d.innerHTML=`<div class="settings-item-name">${e.name}</div><div class="settings-item-actions"><button class="settings-btn-sm" onclick="moveEngineUp(${i})">↑</button><button class="settings-btn-sm" onclick="deleteEngine(${i})">✕</button></div>`;w.appendChild(d)})}
-function addCustomEngine(){const n=document.getElementById("newEngineName").value.trim(),u=document.getElementById("newEngineUrl").value.trim();if(!n||!u)return showToast("请填写完整");engines.push({name:n,url:u});saveData();renderEngineSelect();renderEngineList();document.getElementById("newEngineName").value="";document.getElementById("newEngineUrl").value=""}
-function moveEngineUp(i){if(i<=0)return;[engines[i],engines[i-1]]=[engines[i-1],engines[i]];saveData();renderEngineSelect();renderEngineList()}
-function deleteEngine(i){if(!confirm("确定删除？"))return;engines.splice(i,1);saveData();renderEngineSelect();renderEngineList()}
-function addNewGroup(){const n=document.getElementById("newGroupName").value.trim();if(!n)return showToast("请输入名称");groups.push({name:n,collapsed:false,cardSize:130,cardGap:16,cardRadius:0,sites:[]});saveData();renderGroups();showToast("创建成功")}
+function addCustomEngine(){const n=document.getElementById("newEngineName").value.trim(),u=document.getElementById("newEngineUrl").value.trim();if(!n||!u)return showToast("请填写完整");engines.push({name:n,url:u});renderEngineSelect();renderEngineList();document.getElementById("newEngineName").value="";document.getElementById("newEngineUrl").value=""}
+function moveEngineUp(i){if(i<=0)return;[engines[i],engines[i-1]]=[engines[i-1],engines[i]];renderEngineSelect();renderEngineList()}
+function deleteEngine(i){if(!confirm("确定删除？"))return;engines.splice(i,1);renderEngineSelect();renderEngineList()}
+function addNewGroup(){const n=document.getElementById("newGroupName").value.trim();if(!n)return showToast("请输入名称");groups.push({name:n,collapsed:false,cardSize:130,cardGap:16,cardRadius:0,sites:[]});renderGroups();showToast("创建成功")}
 
 function closeGlobalSettings(){document.getElementById("globalSettingsModal").style.display = "none"}
-function bindHotkey(){document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeSiteModal();closeGlobalSettings();closeGroupSettings();closeIconModal()}})}
-function bindCardParallax(){document.addEventListener('mousemove',e=>{document.querySelectorAll('.site-card').forEach(card=>{const r=card.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;card.style.setProperty('--ry',`${(e.clientX-cx)/30}deg`);card.style.setProperty('--rx',`${-(e.clientY-cy)/30}deg`)})})}
-function bindDockMagnify(){const d=document.getElementById('dockBar'),i=d.querySelectorAll('.dock-item');d.addEventListener('mousemove',e=>{i.forEach(it=>{const r=it.getBoundingClientRect(),c=r.left+r.width/2,dis=Math.abs(e.clientX-c);let s=1;if(dis<150)s=1+0.6*(1-dis/150);it.style.transform=`scale(${s}) translateY(${(1-s)*20}px)`;it.style.margin=`0 ${s*2}px`})});d.addEventListener('mouseleave',()=>{i.forEach(x=>{x.style.transform='scale(1) translateY(0)';x.style.margin='0 6px'})})}
-function bindSearch(){const ipt=document.getElementById("searchInput"),tip=document.getElementById("searchTips");ipt.addEventListener("keydown",e=>{if(e.key!='Enter')return;const v=ipt.value.trim();if(!v)return;window.open(document.getElementById("engineSelect").value+encodeURIComponent(v),"_blank");ipt.value=""})}
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeSiteModal();closeGlobalSettings();closeGroupSettings();closeIconModal()}})
+document.addEventListener('mousemove',e=>{document.querySelectorAll('.site-card').forEach(card=>{const r=card.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;card.style.setProperty('--ry',`${(e.clientX-cx)/30}deg`);card.style.setProperty('--rx',`${-(e.clientY-cy)/30}deg`)})})
+const d=document.getElementById('dockBar');if(d){d.addEventListener('mousemove',e=>{d.querySelectorAll('.dock-item').forEach(it=>{const r=it.getBoundingClientRect(),c=r.left+r.width/2,dis=Math.abs(e.clientX-c);let s=1;if(dis<150)s=1+0.6*(1-dis/150);it.style.transform=`scale(${s}) translateY(${(1-s)*20}px)`;it.style.margin=`0 ${s*2}px`})});d.addEventListener('mouseleave',()=>{d.querySelectorAll('.dock-item').forEach(x=>{x.style.transform='scale(1) translateY(0)';x.style.margin='0 6px'})})}
+document.getElementById("searchInput").addEventListener("keydown",e=>{if(e.key!='Enter')return;const v=e.target.value.trim();if(!v)return;window.open(document.getElementById("engineSelect").value+encodeURIComponent(v),"_blank");e.target.value=""})
 </script>
 </body>
 </html>
-
